@@ -5,6 +5,7 @@ class GildedRose {
     private static final String AGED_BRIE = "Aged Brie";
     private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
     private static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
+    private static final String CONJURED = "Conjured";
 
     Item[] items;
 
@@ -27,6 +28,9 @@ class GildedRose {
         //Special items like Aged Brie and Backstage Passes have different quality rules
         if (isSpecialItem(item)) {
             SpecialItems(item);
+//        } else if (isConjuredItem(item)){
+//            ConjuredItems(item);
+//
         } else {
             //Regular items decrease in quality by 1 (if not Sulfuras)
             decrQuality(item);
@@ -64,7 +68,6 @@ class GildedRose {
             //Backstage passes increase quality the closer the sellin date, even more so when remaining days are 10 or less, or even more if 5 or less
             incrQuality(item);
             if (item.sellIn <= 10) {
-
                 incrQuality(item);
             }
             if (item.sellIn <= 5) {
@@ -74,6 +77,10 @@ class GildedRose {
             incrQuality(item);
         }
     }
+
+//    private void ConjuredItems(Item item) {
+//        decrQuality(item);
+//    }
 
     //Increase the quality of item to max of 50
     private void incrQuality(Item item) {
@@ -87,11 +94,18 @@ class GildedRose {
         if (item.quality > 0 && !item.name.equals(SULFURAS)) {
             item.quality--;
         }
+        if (item.quality > 0 && isConjuredItem(item)){
+            item.quality--;
+        }
     }
 
     //Check if special item or not
     private boolean isSpecialItem(Item item) {
         return item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASSES);
+    }
+
+    private boolean isConjuredItem(Item item){
+        return item.name.contains(CONJURED);
     }
 }
 
